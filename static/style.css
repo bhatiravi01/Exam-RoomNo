@@ -21,21 +21,24 @@
 }
 
 .dark-mode {
-    --background: hsl(260, 30%, 10%);
-    --foreground: hsl(260, 20%, 92%);
-    --card: hsl(260, 30%, 12%);
-    --card-foreground: hsl(260, 20%, 92%);
-    --primary: hsl(260, 60%, 60%);
-    --primary-foreground: hsl(260, 10%, 98%);
-    --secondary: hsl(260, 30%, 20%);
-    --secondary-foreground: hsl(260, 20%, 92%);
-    --muted: hsl(260, 30%, 20%);
-    --muted-foreground: hsl(260, 20%, 70%);
-    --accent: hsl(260, 30%, 20%);
-    --accent-foreground: hsl(260, 20%, 92%);
-    --border: hsl(260, 30%, 25%);
-    --input: hsl(260, 30%, 25%);
-    --shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    --background: hsl(240, 10%, 12%);
+    --foreground: hsl(240, 15%, 85%);
+    --card: hsl(240, 10%, 16%);
+    --card-foreground: hsl(240, 15%, 90%);
+    --primary: hsl(240, 100%, 75%);
+    --primary-foreground: hsl(240, 100%, 10%);  
+    --secondary: hsl(240, 10%, 20%);
+    --secondary-foreground: hsl(240, 15%, 80%);
+    --muted: hsl(240, 10%, 24%);
+    --muted-foreground: hsl(240, 10%, 60%);
+    --accent: hsl(240, 10%, 26%);
+    --accent-foreground: hsl(240, 15%, 88%);
+    --border: hsl(240, 10%, 30%);
+    --input: hsl(240, 10%, 28%);
+    --radius: 0.75rem;
+    --shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+    --vibrant-purple: #8B5CF6;
+    --vibrant-blue: #0EA5E9;
 }
 
 * {
