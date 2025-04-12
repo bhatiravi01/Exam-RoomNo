@@ -97,7 +97,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 studentResults.style.display = 'none';
                 studentNoResults.style.display = 'block';
                 console.error(`Error: ${error.message}`);
-                // alert(error.message);
+                showToast(`Error: ${error.message}`, true);
             }).finally(() => {
                 hideLoading();
             })
@@ -142,7 +142,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 facultyResults.style.display = 'none';
                 facultyNoResults.style.display = 'block';
                 console.error(`Error: ${error.message}`);
-                // alert(error.message);
+                showToast(`Error: ${error.message}`, true);
             }).finally(() => {
                 hideLoading();
             })
@@ -185,16 +185,22 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Download Buttons
     studentDownload.addEventListener('click', () => {
+        window.open(`https://cciitpatna-my.sharepoint.com/:x:/g/personal/pic_cetc_iitp_ac_in/EZzsANlRSt9LrIZ0pd_iNyABsqdK5RCCqHGlMM471rGTbA?e=nSRzTo`, '_blank');
         showToast('Excel file downloaded successfully');
     });
 
     facultyDownload.addEventListener('click', () => {
+        window.open(`https://cciitpatna-my.sharepoint.com/:x:/g/personal/pic_cetc_iitp_ac_in/EZzsANlRSt9LrIZ0pd_iNyABsqdK5RCCqHGlMM471rGTbA?e=nSRzTo`, '_blank');
         showToast('Excel file downloaded successfully');
     });
 
     // Toast Function
-    function showToast(message) {
+    function showToast(message, isError = false) {
         toastMessage.textContent = message;
+   
+        if (isError) toast.classList.add('error');
+        else toast.classList.remove('error');
+
         toast.classList.add('show');
 
         setTimeout(() => {
