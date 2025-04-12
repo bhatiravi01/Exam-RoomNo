@@ -57,7 +57,7 @@ body {
     color: var(--foreground);
     line-height: 1.5;
     transition: background-color 0.3s ease, color 0.3s ease;
-    min-height: 100vh;
+    min-height: 100dvh;
     display: flex;
     flex-direction: column;
 }
