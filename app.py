@@ -30,6 +30,7 @@ def find_by_coursecode(df: pd.DataFrame, course_code: str) -> pd.DataFrame:
 
 @app.get("/student/{rollno}")
 def get_student_by_rollno(rollno: str):
+    rollno = rollno.replace(" ","")
     df: pd.DataFrame = app.state.df  # Access the loaded DataFrame
     result = find_by_rollno(df, rollno)
     if result.empty:
@@ -38,6 +39,7 @@ def get_student_by_rollno(rollno: str):
 
 @app.get("/faculty/{coursecode}")
 def get_faculty_by_coursecode(coursecode: str):
+    coursecode = coursecode.replace(" ","")
     df: pd.DataFrame = app.state.df
     result = find_by_coursecode(df , coursecode)
     if result.empty:
