@@ -70,33 +70,35 @@ document.addEventListener('DOMContentLoaded', function () {
 
         //fetch
         fetch(`/student/${rollNo}`)
-            .then(data => data.json())
-            .then((data)=>{
-                if (data['detail']) throw new Error(data['detail'])
-                const new_data = data.map((item) => {
-                    return { 
-                        rollNo: item['rollno'], 
-                        examDay: item['day'], 
-                        courseCode: item['coursecode'], 
-                        date: item['date'], 
-                        shift: item['shift'],
-                        roomNo: item['roomno']
-                    }
-                });
+            .then(async response => {
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    throw new Error(errorData.detail || 'Unknown error');
+                }
+                return response.json();
+            })
+            .then(data => data.map((item) => ({
+                rollNo: item['rollno'], 
+                examDay: item['day'], 
+                courseCode: item['coursecode'], 
+                date: item['date'], 
+                shift: item['shift'], 
+                roomNo: item['roomno']
+            })))
+            .then((data) => {
                 console.log(data);
                 studentSearchTerm.textContent = rollNo;
-                renderStudentResults(new_data);
+                renderStudentResults(data);
                 studentResults.style.display = 'block';
                 studentNoResults.style.display = 'none';
-            })
-            .catch((error)=>{  
+            }).catch((error) => {
                 studentSearchTerm.textContent = rollNo;
                 renderStudentResults([]);
                 studentResults.style.display = 'none';
                 studentNoResults.style.display = 'block';
-                console.log(`Error: ${error.message}`);
-            })
-            .finally(()=>{
+                console.error(`Error: ${error.message}`);
+                showToast(`Error: ${error.message}`, true);
+            }).finally(() => {
                 hideLoading();
             })
     });
@@ -111,53 +113,40 @@ document.addEventListener('DOMContentLoaded', function () {
         showLoading();
 
         fetch(`/faculty/${courseCode}`)
-            .then(data => data.json())
-            .then( data =>{
-                if(data['detail']) throw new Error(data['detail'])
-                const new_data = data.map((item) => {
-                    return { 
-                        courseCode: item['coursecode'], 
-                        day: item['day'], 
-                        shift: item['shift'],
-                        date: item['date'],  
-                        roomNos: item['roomno']
-                    }
-                });
+            .then(async response => {
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    throw new Error(errorData.detail || 'Unknown error');
+                }
+                return response.json();
+            })
+            .then(data => {
+                const courseCode = data['coursecode'];
+                const day = data['day'];
+                const shift = data['shift'];
+                const date = data['date'];
+                return data['roomno'].map((roomno) => ({
+                    courseCode, day, shift, date, 
+                    roomNos: roomno
+                }))
+            })
+            .then((data) => {
                 console.log(data);
                 facultySearchTerm.textContent = courseCode;
-                renderFacultyResults(new_data);
+                renderFacultyResults(data);
                 facultyResults.style.display = 'block';
-                facultyNoResults.style.display = 'none';      
+                facultyNoResults.style.display = 'none';
+            }).catch((error) => {
+                facultySearchTerm.textContent = courseCode;
+                renderFacultyResults([]);
+                facultyResults.style.display = 'none';
+                facultyNoResults.style.display = 'block';
+                console.error(`Error: ${error.message}`);
+                showToast(`Error: ${error.message}`, true);
+            }).finally(() => {
+                hideLoading();
             })
-            .catch(
-                (error)=>{
-                    facultySearchTerm.textContent = courseCode;
-                    renderFacultyResults([]);
-                    facultyResults.style.display = 'none';
-                    facultyNoResults.style.display = 'block';
-                    console.log(`Error: ${error.message}`)
-                }
-            ).finally(
-                () => {
-                    hideLoading();
-                }
-            )
 
-        // Simulate API call
-        // setTimeout(() => {
-        //     hideLoading();
-
-        //     
-        //     // Check for matches
-        //     if (courseCode === 'CS2207') {
-        //         renderFacultyResults(mockCourseData);
-        //         facultyResults.style.display = 'block';
-        //         facultyNoResults.style.display = 'none';
-        //     } else {
-        //         facultyResults.style.display = 'none';
-        //         facultyNoResults.style.display = 'block';
-        //     }
-        // }, 800);
     });
 
     // Render Results Functions
@@ -196,16 +185,22 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Download Buttons
     studentDownload.addEventListener('click', () => {
+        window.open(`https://cciitpatna-my.sharepoint.com/:x:/g/personal/pic_cetc_iitp_ac_in/EZzsANlRSt9LrIZ0pd_iNyABsqdK5RCCqHGlMM471rGTbA?e=nSRzTo`, '_blank');
         showToast('Excel file downloaded successfully');
     });
 
     facultyDownload.addEventListener('click', () => {
+        window.open(`https://cciitpatna-my.sharepoint.com/:x:/g/personal/pic_cetc_iitp_ac_in/EZzsANlRSt9LrIZ0pd_iNyABsqdK5RCCqHGlMM471rGTbA?e=nSRzTo`, '_blank');
         showToast('Excel file downloaded successfully');
     });
 
     // Toast Function
-    function showToast(message) {
+    function showToast(message, isError = false) {
         toastMessage.textContent = message;
+   
+        if (isError) toast.classList.add('error');
+        else toast.classList.remove('error');
+
         toast.classList.add('show');
 
         setTimeout(() => {
