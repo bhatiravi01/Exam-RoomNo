@@ -185,12 +185,12 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Download Buttons
     studentDownload.addEventListener('click', () => {
-        window.open(`https://cciitpatna-my.sharepoint.com/:x:/g/personal/pic_cetc_iitp_ac_in/EZzsANlRSt9LrIZ0pd_iNyABsqdK5RCCqHGlMM471rGTbA?e=nSRzTo`, '_blank');
+        window.open(`https://cciitpatna-my.sharepoint.com/:x:/g/personal/pic_cetc_iitp_ac_in/EeM_ohnd8QFBjg3eiRxZBhUBMSvsQn0BmMKBOtvKv81psQ?e=aZ60uM`, '_blank');
         showToast('Excel file downloaded successfully');
     });
 
     facultyDownload.addEventListener('click', () => {
-        window.open(`https://cciitpatna-my.sharepoint.com/:x:/g/personal/pic_cetc_iitp_ac_in/EZzsANlRSt9LrIZ0pd_iNyABsqdK5RCCqHGlMM471rGTbA?e=nSRzTo`, '_blank');
+        window.open(`https://cciitpatna-my.sharepoint.com/:x:/g/personal/pic_cetc_iitp_ac_in/EeM_ohnd8QFBjg3eiRxZBhUBMSvsQn0BmMKBOtvKv81psQ?e=aZ60uM`, '_blank');
         showToast('Excel file downloaded successfully');
     });
 
