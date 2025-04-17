@@ -50,7 +50,10 @@ templates = Jinja2Templates(directory=template_path)
 def get_dataframe(request: Request) -> pd.DataFrame:
     if not hasattr(request.app.state, "df"):
         try:
-            request.app.state.df = pd.read_csv(csv_path)
+            df = pd.read_csv(csv_path)
+            if 'roomno' in df.columns:
+                df['roomno'] = df['roomno'].fillna('')
+            request.app.state.df = df
         except Exception as e:
             raise HTTPException(status_code=500, detail=f"Failed to load data: {e}")
     return request.app.state.df
@@ -81,8 +84,7 @@ def get_student_by_rollno(
     rollno: str,
     df: pd.DataFrame = Depends(get_dataframe)
 ):
-
-    rollno = rollno.replace(" ","")
+    rollno = rollno.replace(" ","").strip()
     result = find_by_rollno(df, rollno)
     if result.empty:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Student not found")
@@ -94,7 +96,7 @@ def get_faculty_by_coursecode(
     course_code: str,
     df: pd.DataFrame = Depends(get_dataframe)
 ):
-    coursecode = coursecode.replace(" ","")
+    course_code = course_code.replace(" ","").strip()
     result = find_by_coursecode(df, course_code)
     if result.empty:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Course not found")
