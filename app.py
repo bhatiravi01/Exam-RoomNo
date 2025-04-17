@@ -37,6 +37,7 @@ class StudentResponse(BaseModel):
     coursecode: str # "MA2204"
     roomno: str # "408"
     rollno: str # "2302MC05"
+    coursename: str # Engineering Mechanics
 
 class FacultyResponse(BaseModel):
     date: str # "2025-02-22",
@@ -44,6 +45,7 @@ class FacultyResponse(BaseModel):
     coursecode: str # "CS2207",
     day: str # "Saturday",
     roomno: List[str] # ["LT102", "LT103"]
+    coursename: str # Engineering Mechanics
 
 templates = Jinja2Templates(directory=template_path)
 
@@ -53,6 +55,8 @@ def get_dataframe(request: Request) -> pd.DataFrame:
             df = pd.read_csv(csv_path)
             if 'roomno' in df.columns:
                 df['roomno'] = df['roomno'].fillna('')
+            if 'coursename' in df.columns:
+                df['coursename'] = df['coursename'].fillna('')
             request.app.state.df = df
         except Exception as e:
             raise HTTPException(status_code=500, detail=f"Failed to load data: {e}")
@@ -73,6 +77,7 @@ def find_by_coursecode(df: pd.DataFrame, course_code: str) -> pd.DataFrame:
     grouped = filtered.groupby(['date', 'shift']).agg({
         'coursecode': 'first',
         'day': 'first',
+        'coursename': 'first',
         'roomno': lambda x: list(set(x))
     }).reset_index()
     return grouped

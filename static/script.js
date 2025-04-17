@@ -83,7 +83,8 @@ document.addEventListener('DOMContentLoaded', function () {
                 courseCode: item['coursecode'], 
                 date: item['date'], 
                 shift: item['shift'], 
-                roomNo: item['roomno']
+                roomNo: item['roomno'],
+                courseName: item['coursename'] || '-'
             })))
             .then((data) => {
                 console.log(data);
@@ -125,9 +126,11 @@ document.addEventListener('DOMContentLoaded', function () {
                 const day = data['day'];
                 const shift = data['shift'];
                 const date = data['date'];
+                const coursename = data['coursename']
                 return data['roomno'].map((roomno) => ({
                     courseCode, day, shift, date, 
-                    roomNos: roomno
+                    roomNos: roomno,
+                    courseName: coursename
                 }))
             })
             .then((data) => {
@@ -162,6 +165,7 @@ document.addEventListener('DOMContentLoaded', function () {
           <td>${item.date}</td>
           <td>${item.shift}</td>
           <td>${item.roomNo}</td>
+          <td>${item.courseName}</td>
         `;
             studentTableBody.appendChild(row);
         });
@@ -178,6 +182,7 @@ document.addEventListener('DOMContentLoaded', function () {
           <td>${item.shift}</td>
           <td>${item.date}</td>
           <td>${item.roomNos}</td>
+          <td>${item.courseName}</td>
         `;
             facultyTableBody.appendChild(row);
         });
