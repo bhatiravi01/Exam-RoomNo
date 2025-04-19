@@ -126,7 +126,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 const day = data['day'];
                 const shift = data['shift'];
                 const date = data['date'];
-                const coursename = data['coursename']
+                const coursename = data['coursename'] || '-'
                 return data['roomno'].map((roomno) => ({
                     courseCode, day, shift, date, 
                     roomNos: roomno,
